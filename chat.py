@@ -85,9 +85,12 @@ with right_column:
 
 # Play most recent bot response audio
 if latest_answer:
-    
+    try:
         with st.spinner("DevBot is talking..."):
             speak_text(latest_answer)
+        
+    except:
+        st.warning("Failed to play audio. Give the chatbot a time to process or refresh the browser.")
         
     
 
