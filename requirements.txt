@@ -1,3 +1,4 @@
 streamlit
 openai
-pyttsx3==2.90
+gTTs
+base64
