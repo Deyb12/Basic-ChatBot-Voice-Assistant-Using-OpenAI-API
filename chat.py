@@ -1,9 +1,11 @@
 import streamlit as st
 import openai
-import pyttsx3
+import base64
+from gtts import gTTS
+import os
 
 # Set up OpenAI API key
-openai.api_key = st.secrets["api_secret"]
+openai.api_key = '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'
 
 # Function to generate answer from questions using OpenAI's GPT-3 language model
 def ask_question(question):
@@ -20,13 +22,22 @@ def ask_question(question):
     return answer
 
 # Function for text-to-speech functionality
+
 def speak_text(text):
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 150)
-    engine.setProperty('volume', 1.0)
+    # Generate audio file using gTTS
+    tts = gTTS(text=text, lang='en')
+    tmp_file = "_tmp_audio.mp3"
+    tts.save(tmp_file)
     
-    engine.say(text)
-    engine.runAndWait() 
+    # Read audio file contents in bytes format and remove the temporary file
+    with open(tmp_file, 'rb') as f:
+        audio_bytes = f.read()
+    os.remove(tmp_file)
+
+    # Encode audio file as base64 and create HTML audio tag
+    audio_base64 = base64.b64encode(audio_bytes).decode('utf-8')
+    audio_tag = f'<audio autoplay="true" src="data:audio/wav;base64,{audio_base64}">'
+    st.markdown(audio_tag, unsafe_allow_html=True)
 
 st.markdown("<h1 style='font-size: 42px; font-family: Courier New;'>Welcome to <span style='color: #D4AF37;'>DevBot AI</span>!</h1><p style = 'font-size: 18px;'>DevBot is an interactive chatbot assistant with a voiceover feature that can answer both basic and complex questions, depending on the user input. </p><br>", unsafe_allow_html=True)
 # Initialize session state to store conversation history
@@ -74,10 +85,11 @@ with right_column:
 
 # Play most recent bot response audio
 if latest_answer:
-   with st.spinner("DevBot is talking..."):
-        speak_text(latest_answer)
-  
-
+    
+        with st.spinner("DevBot is talking..."):
+            speak_text(latest_answer)
+        
+    
 
 footer="""<style>
 a:link , a:visited{
@@ -106,5 +118,4 @@ text-align: center;
 <p>Built with ❤ by <a style='display: block; text-align: center;' href="https://github.com/Deyb12" target="_blank">DAVE FAGARITA</a></p>
 </div>
 """
-st.markdown(footer,unsafe_allow_html=True)
-    
+st.markdown(footer,unsafe_allow_html=True)   
