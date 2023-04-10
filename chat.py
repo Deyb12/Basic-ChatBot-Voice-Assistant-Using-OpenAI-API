@@ -5,7 +5,7 @@ from gtts import gTTS
 import os
 
 # Set up OpenAI API key
-openai.api_key = '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'
+openai.api_key = st.secrets["api_secret"]
 
 # Function to generate answer from questions using OpenAI's GPT-3 language model
 def ask_question(question):
