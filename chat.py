@@ -53,6 +53,10 @@ latest_answer = ""
 
 # Get user message in the left column
 with left_column:
+    gif_url = "https://miro.medium.com/v2/resize:fit:1200/1*9I6EIL5NG20A8se5afVmOg.gif"
+    with st.columns(3)[0]:
+        st.image(gif_url, width=260)
+        
     user_message = st.text_area("Enter your message:")
 
     # Store user message and generate bot response when the "Send" button is clicked
@@ -64,13 +68,7 @@ with left_column:
         st.session_state.conversation_history.insert(0, bot_message_text) # Add bot message to the beginning of the list
         latest_answer = answer
         user_message = ""
-        
-    gif_url = "https://miro.medium.com/v2/resize:fit:1200/1*9I6EIL5NG20A8se5afVmOg.gif"
-    with st.columns(3)[0]:
-        st.image(gif_url, width=260)
     
-
-
 # Display conversation history in the right column
 with right_column:
     st.write("Conversation history:")
