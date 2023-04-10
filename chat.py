@@ -4,7 +4,7 @@ import pyttsx3
 
 # Set up OpenAI API key
 openai.api_key = st.secrets["api_secret"]
-
+engine = pyttsx3.init()
 # Function to generate answer from questions using OpenAI's GPT-3 language model
 def ask_question(question):
     prompt = f"Q: {question}\nA:"
@@ -21,7 +21,7 @@ def ask_question(question):
 
 # Function for text-to-speech functionality
 def speak_text(text):
-    engine = pyttsx3.init()
+    
     engine.setProperty('rate', 150)
     engine.setProperty('volume', 1.0)
     
